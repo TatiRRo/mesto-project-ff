@@ -1,37 +1,48 @@
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.places__list');
-
-initialCards.forEach(({ name, link }) => {
-    const cardItem = cardTemplate
-        .querySelector('.places__item')
-        .cloneNode(true);
-    const cardImage = cardItem.querySelector('.card__image');
-    const cardImageTitle = cardItem.querySelector('.card__title');
-
-    cardImage.src = link;
-    cardImageTitle.textContent = name;
-
-    cardList.append(cardItem);
-});
-
 const addCardButton = document.querySelector('.profile__add-button');
 const popupAddPlace = document.querySelector('.popup_type_new-card');
+const closePopupButton = popupAddPlace.querySelector('.popup__close');
 
+// @todo: Функция создания карточки
+function createCard({ name, link }, onDelete) {
+    const cardElement = cardTemplate
+        .querySelector('.places__item')
+        .cloneNode(true);
+    const cardImage = cardElement.querySelector('.card__image');
+    const cardImageTitle = cardElement.querySelector('.card__title');
+    const deleteButton = cardElement.querySelector('.card__delete-button');
+
+    cardImage.src = link;
+    cardImage.alt = `На фото изображен город ${name}`;
+    cardImageTitle.textContent = name;
+
+    deleteButton.addEventListener('click', () => onDelete(cardElement));
+
+    return cardElement;
+}
+
+// @todo: Функция удаления карточки
+function handleDeleteCard(cardElement) {
+    cardElement.remove();
+}
+
+// @todo: Функция вставки карточки на страницу
+function renderCard(cardElement, container) {
+    container.append(cardElement);
+}
+
+// @todo: Вывести карточки на страницу, используем цикл forEach
+initialCards.forEach(card => {
+    const cardElement = createCard(card, handleDeleteCard);
+    renderCard(cardElement, cardList);
+});
+
+// @todo: Открытие и закрытие попапа добавления карточки
 addCardButton.addEventListener('click', function () {
     popupAddPlace.style.display = 'flex';
 });
 
-const closePopUpdButton = popupAddPlace.querySelector('.popup__close');
-
-closePopUpdButton.addEventListener('click', function () {
+closePopupButton.addEventListener('click', function () {
     popupAddPlace.style.display = 'none';
-});
-
-cardList.addEventListener('click', function (evt) {
-    if (evt.target.classList.contains('card__delete-button')) {
-        const cardItem = evt.target.closest('.places__item');
-        if (cardItem) {
-            cardItem.remove();
-        }
-    }
 });
