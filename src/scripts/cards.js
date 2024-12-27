@@ -1,4 +1,4 @@
-import { cardTemplate, cardList } from '../index.js';
+import { cardTemplate } from '../index.js';
 import { buildImageTypePopup } from './modal.js';
 
 const initialCards = [
@@ -35,17 +35,17 @@ const createCard = ({ name, link }, onDeleteClick, onLikeClick, typePopup) => {
         .querySelector('.places__item')
         .cloneNode(true);
     const cardImage = cardElement.querySelector('.card__image');
-    const cardImageTitle = cardElement.querySelector('.card__title');
+    const cardTitle = cardElement.querySelector('.card__title');
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const likeButton = cardElement.querySelector('.card__like-button');
 
     cardImage.src = link;
-    cardImage.alt = 'На фото изображен город ${name}';
-    cardImageTitle.textContent = name;
+    cardImage.alt = `На фото изображен город ${name}`;
+    cardTitle.textContent = name;
 
     deleteButton.addEventListener('click', () => onDeleteClick(cardElement));
     cardImage.addEventListener('click', () => buildImageTypePopup(cardImage));
-    likeButton.addEventListener('click', () => likeCard(likeButton));
+    likeButton.addEventListener('click', () => toggleLike(likeButton));
 
     return cardElement;
 };
@@ -56,24 +56,10 @@ const handleDeleteCard = cardElement => {
     cardElement.remove();
 };
 
-// Функция вставки карточки на страницу
-
-const renderCard = (cardElement, container) => {
-    container.append(cardElement);
-};
-
-// Функция добавления новой карточки в начало списка
-const addCard = (name, link) => {
-    const cardElement = createCard({ name, link }, card => {
-        card.remove();
-    });
-    cardList.prepend(cardElement);
-};
-
 // LIKE
 // Функция для добавления/удаления Like на фото
 
-const likeCard = button => {
+const toggleLike = button => {
     const currentStyle = getComputedStyle(button).backgroundImage;
 
     if (currentStyle.includes('like-active.svg')) {
@@ -89,11 +75,4 @@ const likeCard = button => {
     }
 };
 
-export {
-    initialCards,
-    createCard,
-    handleDeleteCard,
-    renderCard,
-    addCard,
-    likeCard,
-};
+export { initialCards, createCard, handleDeleteCard, toggleLike };
