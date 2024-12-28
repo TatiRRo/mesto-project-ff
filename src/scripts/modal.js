@@ -31,6 +31,7 @@ const closePopup = modal => {
 };
 
 // При отправке формы попап автоматически закрывается
+
 const sendForm = form => {
     const popup = form.closest('.popup');
     closePopup(popup);

@@ -102,6 +102,7 @@ formEditProfile.addEventListener('submit', editProfile);
 
 // НОВАЯ КАРТОЧКА
 // Обработчик отправки формы добавления новой карточки
+
 formAddNewCard.addEventListener('submit', event => {
     event.preventDefault();
 
