@@ -74,4 +74,4 @@ const toggleLike = button => {
     }
 };
 
-export { initialCards, createCard, handleDeleteCard, toggleLike };
+export { initialCards, createCard, handleDeleteCard };

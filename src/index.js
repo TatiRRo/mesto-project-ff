@@ -1,10 +1,5 @@
 import './pages/index.css';
-import {
-    initialCards,
-    createCard,
-    handleDeleteCard,
-    toggleLike,
-} from './scripts/cards.js';
+import { initialCards, createCard, handleDeleteCard } from './scripts/cards.js';
 import { closePopup, openPopup, sendForm } from './scripts/modal.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -23,7 +18,6 @@ const formAddNewCard = document.querySelector('form[name="new-place"]');
 const inputPlaceName = formAddNewCard.elements['place-name'];
 const inputPlaceLink = formAddNewCard.elements['link'];
 
-const likeButtons = document.querySelectorAll('.card__like-button');
 const cardImages = document.querySelectorAll('.card__image');
 
 const addCardPopup = document.querySelector('.popup_type_new-card');
