@@ -34,6 +34,7 @@ const renderCard = (cardElement, container) => {
 };
 
 // Функция добавления новой карточки в начало списка
+
 const addCard = (name, link) => {
     const cardElement = createCard({ name, link }, card => {
         card.remove();
