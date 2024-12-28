@@ -28,6 +28,7 @@ const closeByEscape = evt => {
 const openPopup = modal => {
     modal.classList.add('popup_is-opened');
     modal.classList.remove('popup_is-animated');
+    
     document.addEventListener('keydown', closeByEscape);
     document.addEventListener('click', closeByOverlay);
 };
@@ -35,11 +36,6 @@ const openPopup = modal => {
 const closePopup = modal => {
     modal.classList.add('popup_is-animated');
     modal.classList.remove('popup_is-opened');
-
-    const form = modal.querySelector('form');
-    if (form) {
-        setTimeout(() => form.reset(), 600);
-    }
 
     document.removeEventListener('keydown', closeByEscape);
     document.removeEventListener('click', closeByOverlay);

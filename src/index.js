@@ -62,6 +62,7 @@ initialCards.forEach(card => {
 // Добавление pop-up для создания новой карточки
 
 addCardButton.addEventListener('click', () => {
+    formAddNewCard.reset();
     openPopup(addCardPopup);
 });
 
@@ -70,6 +71,7 @@ addCardButton.addEventListener('click', () => {
 editButtonProfile.addEventListener('click', () => {
     inputUserName.placeholder = profileName.textContent;
     inputUserProfession.placeholder = descriptionProfile.textContent;
+    formEditProfile.reset();
     openPopup(editProfilePopup);
 });
 
