@@ -5,13 +5,7 @@ import {
     handleDeleteCard,
     toggleLike,
 } from './scripts/cards.js';
-import {
-    closePopup,
-    openPopup,
-    sendForm,
-    editProfile,
-    buildImageTypePopup,
-} from './scripts/modal.js';
+import { closePopup, openPopup, sendForm } from './scripts/modal.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.places__list');
@@ -88,6 +82,21 @@ closePopupButtons.forEach(button => {
 });
 
 // ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
+
+// Функция для записи новых данных в профиль
+
+const editProfile = evt => {
+    evt.preventDefault();
+
+    inputUserName.placeholder = inputUserName.value;
+    inputUserProfession.placeholder = inputUserProfession.value;
+
+    profileName.textContent = inputUserName.value;
+    descriptionProfile.textContent = inputUserProfession.value;
+
+    sendForm(formEditProfile);
+};
+
 // Вызов функции для записи новых данных в профиль
 
 formEditProfile.addEventListener('submit', editProfile);
@@ -107,16 +116,21 @@ formAddNewCard.addEventListener('submit', event => {
     }
 });
 
-// LIKE
-// Обработчик для каждой кнопки Like
-
-likeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        toggleLike(button);
-    });
-});
-
 // ПОПАП С КАРТИНКОЙ
+// Функция для создания попапа предпросмотра
+
+const buildImageTypePopup = image => {
+    const parentCard = image.closest('.card');
+    const cardImage = parentCard.querySelector('.card__image');
+    const cardTitle = parentCard.querySelector('.card__title');
+
+    imageCard.src = cardImage.src;
+    imageCard.alt = `На фото изображен город ${cardTitle.textContent}`;
+    captionCard.textContent = cardTitle.textContent;
+
+    openPopup(imagePopup);
+};
+
 // Обработчик для показа попапа с картинкой
 
 cardImages.forEach(image => {
@@ -125,15 +139,4 @@ cardImages.forEach(image => {
     });
 });
 
-export {
-    cardTemplate,
-    inputUserName,
-    inputUserProfession,
-    profileName,
-    descriptionProfile,
-    formEditProfile,
-    cardList,
-    imagePopup,
-    imageCard,
-    captionCard,
-};
+export { cardTemplate, buildImageTypePopup };

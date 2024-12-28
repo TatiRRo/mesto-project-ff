@@ -1,5 +1,4 @@
-import { cardTemplate } from '../index.js';
-import { buildImageTypePopup } from './modal.js';
+import { cardTemplate, buildImageTypePopup } from '../index.js';
 
 const initialCards = [
     {

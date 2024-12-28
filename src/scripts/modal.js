@@ -1,14 +1,3 @@
-import {
-    inputUserName,
-    inputUserProfession,
-    profileName,
-    descriptionProfile,
-    formEditProfile,
-    imagePopup,
-    imageCard,
-    captionCard,
-} from '../index.js';
-
 // Открытие и закрытие попапа добавления карточки
 
 const closeByOverlay = evt => {
@@ -28,7 +17,7 @@ const closeByEscape = evt => {
 const openPopup = modal => {
     modal.classList.add('popup_is-opened');
     modal.classList.remove('popup_is-animated');
-    
+
     document.addEventListener('keydown', closeByEscape);
     document.addEventListener('click', closeByOverlay);
 };
@@ -47,34 +36,4 @@ const sendForm = form => {
     closePopup(popup);
 };
 
-// ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
-// Функция для записи новых данных в профиль
-
-const editProfile = evt => {
-    evt.preventDefault();
-
-    inputUserName.placeholder = inputUserName.value;
-    inputUserProfession.placeholder = inputUserProfession.value;
-
-    profileName.textContent = inputUserName.value;
-    descriptionProfile.textContent = inputUserProfession.value;
-
-    sendForm(formEditProfile);
-};
-
-// ПОПАП С КАРТИНКОЙ
-// Функция для создания попапа предпросмотра
-
-const buildImageTypePopup = image => {
-    const parentCard = image.closest('.card');
-    const cardImage = parentCard.querySelector('.card__image');
-    const cardTitle = parentCard.querySelector('.card__title');
-
-    imageCard.src = cardImage.src;
-    imageCard.alt = `На фото изображен город ${cardTitle.textContent}`;
-    captionCard.textContent = cardTitle.textContent;
-
-    openPopup(imagePopup);
-};
-
-export { closePopup, openPopup, sendForm, editProfile, buildImageTypePopup };
+export { closePopup, openPopup, sendForm };
