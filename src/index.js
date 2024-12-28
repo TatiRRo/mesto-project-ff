@@ -31,6 +31,7 @@ const editProfilePopup = document.querySelector('.popup_type_edit');
 const imagePopup = document.querySelector('.popup_type_image');
 const imageCard = imagePopup.querySelector('.popup__image');
 const captionCard = imagePopup.querySelector('.popup__caption');
+const closePopupButtons = document.querySelectorAll('.popup__close');
 
 // Функция вставки карточки на страницу
 
@@ -71,8 +72,6 @@ editButtonProfile.addEventListener('click', () => {
 
 // ЗАКРЫТИЕ POP-UP
 // Закрытие через нажатие на 'крестик'
-
-const closePopupButtons = document.querySelectorAll('.popup__close');
 
 closePopupButtons.forEach(button => {
     const popup = button.closest('.popup');
