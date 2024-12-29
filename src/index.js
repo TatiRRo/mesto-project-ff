@@ -18,8 +18,6 @@ const formAddNewCard = document.querySelector('form[name="new-place"]');
 const inputPlaceName = formAddNewCard.elements['place-name'];
 const inputPlaceLink = formAddNewCard.elements['link'];
 
-const cardImages = document.querySelectorAll('.card__image');
-
 const addCardPopup = document.querySelector('.popup_type_new-card');
 const editProfilePopup = document.querySelector('.popup_type_edit');
 const imagePopup = document.querySelector('.popup_type_image');
@@ -76,7 +74,6 @@ closePopupButtons.forEach(button => {
 });
 
 // ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
-
 // Функция для записи новых данных в профиль
 
 const editProfile = evt => {
@@ -125,13 +122,5 @@ const buildImageTypePopup = image => {
 
     openPopup(imagePopup);
 };
-
-// Обработчик для показа попапа с картинкой
-
-cardImages.forEach(image => {
-    image.addEventListener('click', () => {
-        buildImageTypePopup(image);
-    });
-});
 
 export { cardTemplate, buildImageTypePopup };
