@@ -1,4 +1,5 @@
 import { cardTemplate, buildImageTypePopup } from '../index.js';
+import { deleteCard, likeCard, unlikeCard } from './api.js';
 
 //Функция создания карточки
 
@@ -21,7 +22,7 @@ const createCard = (cardData, userId, onDeleteClick, onLikeClick) => {
         deleteButton.style.display = 'none';
     } else {
         deleteButton.addEventListener('click', () =>
-            onDeleteClick(cardElement, cardData._id)
+            onDeleteClick(cardElement, cardData._id, cardData.owner._id, userId)
         );
     }
 
@@ -33,4 +34,31 @@ const createCard = (cardData, userId, onDeleteClick, onLikeClick) => {
     return cardElement;
 };
 
-export { createCard };
+// Функция для обработки лайков
+
+const handleLikeClick = (likeButton, cardId) => {
+    const isLiked = likeButton.classList.contains(
+        'card__like-button_is-active'
+    );
+    const likeAction = isLiked ? unlikeCard : likeCard;
+
+    likeAction(cardId)
+        .then(updatedCard => {
+            likeButton.classList.toggle('card__like-button_is-active');
+            likeButton.nextElementSibling.textContent =
+                updatedCard.likes.length;
+        })
+        .catch(err => console.error(`Ошибка лайка: ${err}`));
+};
+
+// Функция для удаления карточки, если она не принадлежит текущему пользователю
+
+const handleDeleteCard = (element, cardId, ownerId, userId) => {
+    if (ownerId === userId) {
+        deleteCard(cardId)
+            .then(() => element.remove())
+            .catch(err => console.error(`Ошибка удаления: ${err}`));
+    }
+};
+
+export { createCard, handleLikeClick, handleDeleteCard };

@@ -1,16 +1,16 @@
 import './pages/index.css';
-import { createCard } from './scripts/cards.js';
-import { closePopup, openPopup, sendForm } from './scripts/modal.js';
+import {
+    createCard,
+    handleLikeClick,
+    handleDeleteCard,
+} from './scripts/cards.js';
+import { closePopup, openPopup } from './scripts/modal.js';
 import { enableValidation, clearValidation } from './scripts/validation.js';
 import {
     API_CONFIG,
-    validationConfig,
     loadInitialData,
     updateUserProfile,
     addNewCard,
-    deleteCard,
-    likeCard,
-    unlikeCard,
     updateUserAvatar,
 } from './scripts/api.js';
 
@@ -45,6 +45,15 @@ const formAvatarUpdate = document.querySelector('form[name="update-avatar"]');
 const inputAvatarLink = formAvatarUpdate.elements['avatar'];
 const avatarPopup = document.querySelector('.popup_type_avatar');
 const submitButtonAvatar = updateAvatarPopup.querySelector('.popup__button');
+
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+};
 
 // Функция вставки карточки на страницу
 
@@ -84,24 +93,12 @@ closePopupButtons.forEach(button => {
     });
 });
 
-// ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
-// Функция для записи новых данных в профиль
+// При отправке формы попап автоматически закрывается
 
-const editProfile = evt => {
-    evt.preventDefault();
-
-    inputUserName.placeholder = inputUserName.value;
-    inputUserProfession.placeholder = inputUserProfession.value;
-
-    profileName.textContent = inputUserName.value;
-    profileDescription.textContent = inputUserProfession.value;
-
-    sendForm(formEditProfile);
+const sendForm = form => {
+    const popup = form.closest('.popup');
+    closePopup(popup);
 };
-
-// Вызов функции для записи новых данных в профиль
-
-formEditProfile.addEventListener('submit', editProfile);
 
 // ПОПАП С КАРТИНКОЙ
 // Функция для создания попапа предпросмотра
@@ -156,31 +153,8 @@ loadInitialData()
             const cardElement = createCard(
                 card,
                 userData._id,
-                (element, cardId, ownerId) => {
-                    if (ownerId === userData._id) {
-                        deleteCard(cardId)
-                            .then(() => element.remove())
-                            .catch(err =>
-                                console.error(`Ошибка удаления: ${err}`)
-                            );
-                    }
-                },
-                (likeButton, cardId) => {
-                    const isLiked = likeButton.classList.contains(
-                        'card__like-button_is-active'
-                    );
-                    const likeAction = isLiked ? unlikeCard : likeCard;
-                    likeAction(cardId)
-                        .then(updatedCard => {
-                            likeButton.classList.toggle(
-                                'card__like-button_is-active'
-                            );
-                            likeButton.nextElementSibling.textContent =
-                                updatedCard.likes.length;
-                        })
-                        .catch(err => console.error(`Ошибка лайка: ${err}`));
-                },
-                () => console.log('Открытие попапа')
+                handleDeleteCard,
+                handleLikeClick
             );
             renderCard(cardElement, cardList);
         });
@@ -199,6 +173,8 @@ formEditProfile.addEventListener('submit', evt => {
         })
         .catch(err => console.error(`Ошибка обновления профиля: ${err}`))
         .finally(() => (submitButtonProfile.textContent = 'Сохранить'));
+
+    sendForm(formEditProfile);
 });
 
 // Добавление новой карточки
@@ -211,20 +187,12 @@ formAddCard.addEventListener('submit', evt => {
             const userId = newCard.owner._id;
             const cardElement = createCard(
                 newCard,
-                element => {
-                    if (newCard.owner._id === userId) {
-                        deleteCard(newCard._id)
-                            .then(() => element.remove())
-                            .catch(err =>
-                                console.error(`Ошибка удаления: ${err}`)
-                            );
-                    }
-                },
-                () => console.log('Лайк'),
-                () => console.log('Открытие попапа')
+                userId,
+                handleDeleteCard,
+                handleLikeClick
             );
-
             renderCard(cardElement, cardList);
+
             formAddCard.reset();
             closePopup(addCardPopup);
         })

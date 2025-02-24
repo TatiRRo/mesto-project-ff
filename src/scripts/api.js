@@ -6,15 +6,6 @@ const API_CONFIG = {
     },
 };
 
-const validationConfig = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible',
-};
-
 // Функция обработки ответа сервера
 
 const handleResponse = res =>
@@ -101,7 +92,6 @@ const unlikeCard = cardId => {
 
 export {
     API_CONFIG,
-    validationConfig,
     getUserProfile,
     getInitialCards,
     loadInitialData,
